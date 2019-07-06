@@ -45,7 +45,9 @@ class AuthorizationRequestHandler
 
         if (app()->isAlias('cache')) {
             $this->token = cache()->get('IKCRM_TOKEN_' . $this->login);
-            return;
+            if ($this->token) {
+                return;
+            }
         }
 
         $data  = [
