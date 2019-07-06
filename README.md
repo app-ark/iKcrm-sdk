@@ -7,6 +7,17 @@ ikcrm 的 laravel SDK
 ```bash
 composer require ikcrm/sdk
 ```
+## 使用
+
+```php
+<?php
+use Ikcrm\Ikcrm;
+
+require_once 'vendor/autoload.php';
+$ikcrm = new Ikcrm();
+$ikcrm->login('用户名', '密码', '企业CORP_ID');
+dd($ikcrm->userInfo());
+```
 
 ## 授权
 
