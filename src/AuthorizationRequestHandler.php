@@ -87,7 +87,7 @@ class AuthorizationRequestHandler
                 if (100000 == $json['code'] || 100401 == $json['code'] || 100400 == $json['code']) {
                     $retry--;
                     if ($retry < 0) {
-                        throw new HttpException(401, 'Auth fail after retried 3 times');
+                        throw new HttpException(401, 'Auth fail after retried 3 times, and final caught:' . $json['code'] . ' - ' . $json['message']);
                     }
                     $this->login();
                     return $this->__invoke($handler, $retry);
