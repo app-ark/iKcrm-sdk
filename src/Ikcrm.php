@@ -66,7 +66,7 @@ class Ikcrm
      */
     public function login($login, $password, $corp_id)
     {
-        $this->authorization_handler->login($login, $password, $corp_id);
+        $this->authorization_handler->_login($login, $password, $corp_id);
         return $this;
     }
 

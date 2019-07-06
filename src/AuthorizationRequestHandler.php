@@ -31,7 +31,7 @@ class AuthorizationRequestHandler
         $this->corp_id = $this->corp_id;
     }
 
-    public function login($login = null, $password = null, $corp_id = null)
+    public function _login($login = null, $password = null, $corp_id = null)
     {
         if ($login) {
             $this->login = $login;
@@ -41,6 +41,11 @@ class AuthorizationRequestHandler
         }
         if ($corp_id) {
             $this->corp_id = $this->corp_id;
+        }
+
+        if (app()->isAlias('cache')) {
+            $this->token = cache()->get('IKCRM_TOKEN_' . $this->login);
+            return;
         }
 
         $data  = [
@@ -58,6 +63,14 @@ class AuthorizationRequestHandler
         }
 
         $this->token = $json['data']['user_token'];
+    }
+
+    public function getToken()
+    {
+        if (!$this->token) {
+            $this->_login();
+        }
+        return $this->token;
     }
 
     /**
@@ -89,7 +102,10 @@ class AuthorizationRequestHandler
                     if ($retry < 0) {
                         throw new HttpException(401, 'Auth fail after retried 3 times, and final caught:' . $json['code'] . ' - ' . $json['message']);
                     }
-                    $this->login();
+                    if (app()->isAlias('cache')) {
+                        cache()->forget('IKCRM_TOKEN_' . $this->login);
+                    }
+                    $this->_login();
                     return $this->__invoke($handler, $retry);
                 }
                 return $response;
