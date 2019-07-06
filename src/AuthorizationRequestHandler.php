@@ -43,7 +43,7 @@ class AuthorizationRequestHandler
             $this->corp_id = $this->corp_id;
         }
 
-        if (app()->isAlias('cache')) {
+        if (function_exists('cache')) {
             $this->token = cache()->get('IKCRM_TOKEN_' . $this->login);
             if ($this->token) {
                 return;
@@ -65,6 +65,10 @@ class AuthorizationRequestHandler
         }
 
         $this->token = $json['data']['user_token'];
+
+        if (function_exists('cache')) {
+            cache()->put('IKCRM_TOKEN_' . $this->login, $this->token, 60);
+        }
     }
 
     public function getToken()
@@ -104,7 +108,7 @@ class AuthorizationRequestHandler
                     if ($retry < 0) {
                         throw new HttpException(401, 'Auth fail after retried 3 times, and final caught:' . $json['code'] . ' - ' . $json['message']);
                     }
-                    if (app()->isAlias('cache')) {
+                    if (function_exists('cache')) {
                         cache()->forget('IKCRM_TOKEN_' . $this->login);
                     }
                     $this->_login();
