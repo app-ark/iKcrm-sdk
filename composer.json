@@ -1,5 +1,5 @@
 {
-    "name": "xiaohuilam/weiwenjia-sdk",
+    "name": "ikcrm/sdk",
     "description": "SDK for weiwenjia open api",
     "type": "library",
     "license": "MIT",
@@ -22,13 +22,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Weiwenjia\\": "src/"
+            "Ikcrm\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Weiwenjia\\WeiwenjiaServiceProvider"
+                "Ikcrm\\IkcrmServiceProvider"
             ]
         }
     }

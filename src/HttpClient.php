@@ -1,6 +1,5 @@
 <?php
-
-namespace Weiwenjia;
+namespace Ikcrm;
 
 use GuzzleHttp\Client;
 use function GuzzleHttp\json_decode;
@@ -13,7 +12,7 @@ class HttpClient extends Client
      */
     protected $weiwenjia = null;
 
-    public function __construct(array $config = [], Weiwenjia $weiwenjia)
+    public function __construct(array $config = [], Ikcrm $weiwenjia)
     {
         parent::__construct($config);
         $this->weiwenjia = $weiwenjia;
@@ -27,7 +26,7 @@ class HttpClient extends Client
         if (!isset($json['code'])) {
             throw new HttpException(500, 'Response json with no code');
         }
-        if ($uri != Weiwenjia::API_LOGIN) {
+        if ($uri != Ikcrm::API_LOGIN) {
             if (100000 == $json['code'] || 100401 == $json['code'] || 100400 == $json['code']) {
                 $retry --;
                 if ($retry < 0) {

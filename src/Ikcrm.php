@@ -1,11 +1,10 @@
 <?php
-
-namespace Weiwenjia;
+namespace Ikcrm;
 
 use GuzzleHttp\Handler\CurlHandler;
 use GuzzleHttp\HandlerStack;
 
-class Weiwenjia
+class Ikcrm
 {
     const API_DOMAIN = [
         'standalone' => 'https://api.ikcrm.com',

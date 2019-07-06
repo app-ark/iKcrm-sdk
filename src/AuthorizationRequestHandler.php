@@ -1,5 +1,5 @@
 <?php
-namespace Weiwenjia;
+namespace Ikcrm;
 
 use Carbon\Carbon;
 use Psr\Http\Message\RequestInterface;
@@ -21,7 +21,7 @@ class AuthorizationRequestHandler
      */
     protected $weiwenjia;
 
-    public function __construct(Weiwenjia $weiwenjia, $login = null, $password = null, $corp_id = null)
+    public function __construct(Ikcrm $weiwenjia, $login = null, $password = null, $corp_id = null)
     {
         $this->weiwenjia = $weiwenjia;
 
@@ -50,7 +50,7 @@ class AuthorizationRequestHandler
             'corp_id' => $this->corp_id,
         ];
         $client = new Client(['base_uri' => $this->weiwenjia->domain,]);
-        $login = $client->post(Weiwenjia::API_LOGIN, ['form_params' => $data,]);
+        $login = $client->post(Ikcrm::API_LOGIN, ['form_params' => $data,]);
         $json = json_decode($login->getBody(), true);
         if (0 != $json['code']) {
             throw new HttpException(401, $json['message'], null, [], $json['code']);
