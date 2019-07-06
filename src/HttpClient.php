@@ -26,16 +26,6 @@ class HttpClient extends Client
         if (!isset($json['code'])) {
             throw new HttpException(500, 'Response json with no code');
         }
-        if ($uri != Ikcrm::API_LOGIN) {
-            if (100000 == $json['code'] || 100401 == $json['code'] || 100400 == $json['code']) {
-                $retry --;
-                if ($retry < 0) {
-                    throw new HttpException(401, 'Auth fail after retried 3 times');
-                }
-                $this->weiwenjia->authorization_handler->login();
-                $this->request($method, $uri, $options, $retry);
-            }
-        }
         if (0 != $json['code']) {
             throw new HttpException($json['code'], $json['message']);
         }

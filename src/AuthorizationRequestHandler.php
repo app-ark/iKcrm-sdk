@@ -6,6 +6,7 @@ use Psr\Http\Message\RequestInterface;
 use GuzzleHttp\Client;
 use function GuzzleHttp\json_decode;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Psr\Http\Message\ResponseInterface;
 
 class AuthorizationRequestHandler
 {
@@ -65,15 +66,34 @@ class AuthorizationRequestHandler
      * @param \callable $handler
      * @return \callable
      */
-    public function __invoke($handler)
+    public function __invoke($handler, $retry = 3)
     {
-        return function (RequestInterface $request, array $options) use ($handler) {
+        return function (RequestInterface $request, array $options) use ($handler, $retry) {
             $headerValue = 'Token token=%s, device=%s, version_code=%s';
             $request = $request->withAddedHeader(
                 'Authorization',
                 sprintf($headerValue, $this->token, $this->device, $this->version_code)
             );
-            return $handler($request, $options);
+            /**
+             * @var \GuzzleHttp\Promise\FulfilledPromise $response
+             */
+            $response = $handler($request, $options);
+            return $response->then(function (ResponseInterface $response) use ($handler, $retry) {
+                $body = $response->getBody();
+                $json = json_decode($body, true);
+                if (!isset($json['code'])) {
+                    throw new HttpException(500, 'Response json with no code');
+                }
+                if (100000 == $json['code'] || 100401 == $json['code'] || 100400 == $json['code']) {
+                    $retry--;
+                    if ($retry < 0) {
+                        throw new HttpException(401, 'Auth fail after retried 3 times');
+                    }
+                    $this->login();
+                    return $this->__invoke($handler, $retry);
+                }
+                return $response;
+            });
         };
     }
 }
