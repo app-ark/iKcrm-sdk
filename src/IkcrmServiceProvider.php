@@ -5,6 +5,8 @@ use Illuminate\Support\ServiceProvider;
 
 class IkcrmServiceProvider extends ServiceProvider
 {
+    const CONFIG = __DIR__ . '/config.php';
+
     public function register()
     {
         $this->publishConfig();
@@ -18,6 +20,8 @@ class IkcrmServiceProvider extends ServiceProvider
         app()->singleton('ikcrm', function () {
             return new Ikcrm();
         });
+
+        $this->mergeConfigFrom(static::CONFIG, 'ikcrm');
     }
 
     protected function publishConfig()
@@ -27,7 +31,7 @@ class IkcrmServiceProvider extends ServiceProvider
         }
 
         $this->publishes([
-            __DIR__ . '/config.php' => config_path('ikcrm.php'),
+            static::CONFIG => config_path('ikcrm.php'),
         ], 'Ikcrm');
     }
 }

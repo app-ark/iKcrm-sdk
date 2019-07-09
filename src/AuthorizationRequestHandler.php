@@ -28,7 +28,7 @@ class AuthorizationRequestHandler
 
         $this->login = $login;
         $this->password = $password;
-        $this->corp_id = $this->corp_id;
+        $this->corp_id = config('ikcrm.corp_id', $corp_id);
     }
 
     public function _login($login = null, $password = null, $corp_id = null)
