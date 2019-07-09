@@ -131,9 +131,11 @@ class Ikcrm
      * @return array
      * @link http://apidoc.weiwenjia.com/docs/crm_open_api/customer_list
      */
-    public function customers()
+    public function customers($parameters)
     {
-        return $this->http->get('/api/v2/customers');
+        return $this->http->get('/api/v2/customers', [
+            'query' => $parameters,
+        ]);
     }
 
     /**
