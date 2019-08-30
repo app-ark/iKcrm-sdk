@@ -649,4 +649,19 @@ class Ikcrm
             ]
         ]);
     }
+
+    /**
+     * 写跟进
+     *
+     * @param array $revisit_log
+     * @link http://apidoc.weiwenjia.com/docs/crm_open_api/revisit_create
+     */
+    public function revisitCreate($revisit_log)
+    {
+        return $this->http->put('/api/v2/revisit_logs', [
+            'form_params' => [
+                'revisit_log' => $revisit_log,
+            ],
+        ]);
+    }
 }
