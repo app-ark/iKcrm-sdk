@@ -658,9 +658,41 @@ class Ikcrm
      */
     public function revisitCreate($revisit_log)
     {
-        return $this->http->put('/api/v2/revisit_logs', [
+        return $this->http->post('/api/v2/revisit_logs', [
             'form_params' => [
                 'revisit_log' => $revisit_log,
+            ],
+        ]);
+    }
+
+    /**
+     * 跟进列表接口
+     *
+     * @param int $page 分页页数
+     * @param int $per_page 每页条数
+     * @param string $date 日期类型 默认当天
+     * @param string $start_date 开始时间(2015-06-15), 此时添加 date=other参数
+     * @param string $end_date 结束时间(2015-06-15), 此时添加 date=other参数
+     * @param int $user_id 用户id
+     * @param int $department_id 部门
+     * @param string $loggable_type 实体type, in: [‘lead’, ‘customer’, ‘opportunity’, ‘contract’]
+     * @param int $loggable_id 实体id
+     *
+     * @link http://apidoc.weiwenjia.com/docs/crm_open_api/revisit_logs
+     */
+    public function listRevisitLogs($page = null, $per_page = null, $date = null, $start_date = null, $end_date = null, $user_id = null, $department_id = null, $loggable_type = null, $loggable_id = null)
+    {
+        return $this->http->put('/api/v2/revisit_logs/new_index', [
+            'query' => [
+                'page' => $page,
+                'per_page' => $per_page,
+                'date' => $date,
+                'start_date' => $start_date,
+                'end_date' => $end_date,
+                'user_id' => $user_id,
+                'department_id' => $department_id,
+                'loggable_type' => $loggable_type,
+                'loggable_id' => $loggable_id,
             ],
         ]);
     }
