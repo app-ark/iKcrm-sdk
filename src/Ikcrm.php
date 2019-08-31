@@ -682,7 +682,7 @@ class Ikcrm
      */
     public function listRevisitLogs($page = null, $per_page = null, $date = null, $start_date = null, $end_date = null, $user_id = null, $department_id = null, $loggable_type = null, $loggable_id = null)
     {
-        return $this->http->put('/api/v2/revisit_logs/new_index', [
+        return $this->http->post('/api/v2/revisit_logs/new_index', [
             'query' => [
                 'page' => $page,
                 'per_page' => $per_page,
