@@ -4,9 +4,9 @@ namespace Ikcrm;
 use Carbon\Carbon;
 use Psr\Http\Message\RequestInterface;
 use GuzzleHttp\Client;
-use function GuzzleHttp\json_decode;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Psr\Http\Message\ResponseInterface;
+use function GuzzleHttp\json_decode;
 
 class AuthorizationRequestHandler
 {
@@ -97,7 +97,10 @@ class AuthorizationRequestHandler
              * @var \GuzzleHttp\Promise\FulfilledPromise $response
              */
             $response = $handler($request, $options);
-            return $response->then(function (ResponseInterface $response) use ($handler, $retry) {
+            return $response->then(function ($response) use ($handler, $retry) {
+                /**
+                 * @var ResponseInterface $response
+                 */
                 $body = $response->getBody();
                 $json = json_decode($body, true);
                 if (!isset($json['code'])) {
