@@ -713,7 +713,8 @@ class Ikcrm
      *
      * @link http://apidoc.weiwenjia.com/docs/crm_open_api/contract_list
      */
-    public function listContracts($page, $per_page, $query, $status, $approve_status, $sort, $order, $entity, $entity_id, $tab_type) {
+    public function listContracts($page = null, $per_page = null, $query = null, $status = null, $approve_status = null, $sort = null, $order = null, $entity = null, $entity_id = null, $tab_type = null)
+    {
         return $this->http->get('/api/v2/contracts', [
             'query' => [
                 'page' => $page,
