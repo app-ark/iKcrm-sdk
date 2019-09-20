@@ -696,4 +696,37 @@ class Ikcrm
             ],
         ]);
     }
+
+    /**
+     * 跟进列表接口
+     *
+     * @param $page 页码
+     * @param $per_page 每页的数量
+     * @param $query 搜索关键字
+     * @param $status 状态
+     * @param $approve_status 审批状态
+     * @param $sort 排序类型(created_at )
+     * @param $order 排序方式（asc desc）
+     * @param $entity 实体（customer, opportunity）
+     * @param $entity_id 实体id
+     * @param $tab_type 值为[my,sub]或不传
+     *
+     * @link http://apidoc.weiwenjia.com/docs/crm_open_api/contract_list
+     */
+    public function listContracts($page, $per_page, $query, $status, $approve_status, $sort, $order, $entity, $entity_id, $tab_type) {
+        return $this->http->get('/api/v2/contracts', [
+            'query' => [
+                'page' => $page,
+                'per_page' => $per_page,
+                'query' => $query,
+                'status' => $status,
+                'approve_status' => $approve_status,
+                'sort' => $sort,
+                'order' => $order,
+                'entity' => $entity,
+                'entity_id' => $entity_id,
+                'tab_type' => $tab_type
+            ],
+        ]);
+    }
 }
