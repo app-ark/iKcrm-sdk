@@ -79,6 +79,11 @@ class AuthorizationRequestHandler
         return $this->token;
     }
 
+    public function getLogin()
+    {
+        return $this->login;
+    }
+
     /**
      * 触发
      *
@@ -105,17 +110,6 @@ class AuthorizationRequestHandler
                 $json = json_decode($body, true);
                 if (!isset($json['code'])) {
                     throw new HttpException(500, 'Response json with no code');
-                }
-                if (100000 == $json['code'] || 100401 == $json['code'] || 100400 == $json['code']) {
-                    $retry--;
-                    if ($retry < 0) {
-                        throw new HttpException(401, 'Auth fail after retried 3 times, and final caught:' . $json['code'] . ' - ' . $json['message']);
-                    }
-                    if (function_exists('cache')) {
-                        cache()->forget('IKCRM_TOKEN_' . $this->login);
-                    }
-                    $this->_login();
-                    return $this->__invoke($handler, $retry);
                 }
                 return $response;
             });
