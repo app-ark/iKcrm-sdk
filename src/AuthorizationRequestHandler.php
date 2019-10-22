@@ -1,12 +1,17 @@
 <?php
 namespace Ikcrm;
 
-use GuzzleHttp\Client;
 use function GuzzleHttp\json_decode;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class HttpClient extends Client
+class AuthorizationRequestHandler
 {
+    protected $device = 'open_api';
+    protected $version_code = '9.9.9';
+    protected $login;
+    protected $password;
+    protected $corp_id;
+    protected $token;
     /**
      * @var Weiwenjia
      */
